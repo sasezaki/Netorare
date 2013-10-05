@@ -1,0 +1,22 @@
+{
+    "name": "sasezaki/netorare",
+    "description": "ZF2 Module for view",
+    "require": {
+        "zendframework/zend-view": "2.*",
+        "phly/phly-simple-page": "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Netorare\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "sasezaki",
+            "email": "sasezaki@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "michelf/php-markdown": "*"
+    }
+}
