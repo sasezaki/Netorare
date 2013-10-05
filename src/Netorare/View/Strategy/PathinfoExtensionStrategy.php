@@ -12,7 +12,6 @@ class PathinfoExtensionStrategy extends AbstractListenerAggregate
 {
     protected $rendererPluginManager;
     protected $defaultRenderer;
-    protected $renderer;
 
     /**
      * Constructor
@@ -30,22 +29,12 @@ class PathinfoExtensionStrategy extends AbstractListenerAggregate
     }
 
     /**
-     * Retrieve the composed renderer
-     *
-     * @return RendererInterface
-     */
-    public function getRenderer()
-    {
-        return $this->renderer;
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function attach(EventManagerInterface $events, $priority = 100)
     {
         $this->listeners[] = $events->attach(ViewEvent::EVENT_RENDERER, array($this, 'selectRenderer'), $priority);
-        //$this->listeners[] = $events->attach(ViewEvent::EVENT_RESPONSE, array($this, 'injectResponse'), $priority);
+        $this->listeners[] = $events->attach(ViewEvent::EVENT_RESPONSE, array($this, 'injectResponse'), $priority);
     }
 
     /**
@@ -58,7 +47,6 @@ class PathinfoExtensionStrategy extends AbstractListenerAggregate
     {
         $extension = pathinfo($e->getModel()->getTemplate(), PATHINFO_EXTENSION);
         if ($extension) {
-            $options = array('resolver' => $this->resolver);
             $renderer = $this->rendererPluginManager->get($extension);
             if ($renderer) {
                 $renderer->setResolver($this->resolver);
@@ -81,7 +69,7 @@ class PathinfoExtensionStrategy extends AbstractListenerAggregate
     public function injectResponse(ViewEvent $e)
     {
         $renderer = $e->getRenderer();
-        if ($renderer !== $this->renderer) {
+        if ($renderer !== $this->defaultRenderer) {
             return;
         }
 
