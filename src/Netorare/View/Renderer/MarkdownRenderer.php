@@ -1,12 +1,18 @@
 <?php
 namespace Netorare\View\Renderer;
 
+use Michelf\MarkdownExtra;
 use Zend\View\Renderer\RendererInterface;
 use Zend\View\Resolver\ResolverInterface as Resolver;
 use Zend\View\Resolver\TemplatePathStack;
 
 class MarkdownRenderer implements RendererInterface
 {
+    /**
+     * @var MarkdownExtra
+     */
+    protected $markdown;
+
     /**
      * Template resolver
      *
@@ -33,6 +39,11 @@ class MarkdownRenderer implements RendererInterface
         return $this->__templateResolver;
     }
 
+    public function setEngine($markdown)
+    {
+        $this->markdown = $markdown;
+    }
+
     /**
      * Return the template engine object
      *
@@ -42,7 +53,11 @@ class MarkdownRenderer implements RendererInterface
      */
     public function getEngine()
     {
-        return $this;
+        if (!$this->markdown) {
+            $this->markdown = new MarkdownExtra;
+        }
+
+        return $this->markdown;
     }
 
     /**
@@ -60,7 +75,7 @@ class MarkdownRenderer implements RendererInterface
 
     public function render($nameOrModel, $values = null)
     {
-        var_dump($this->resolver($nameOrModel->getTemplate()));
-        return "aaaa";
+        $file = $this->resolver($nameOrModel->getTemplate());
+        return $this->getEngine()->transform(file_get_contents($file));
     }
 }
