@@ -1,6 +1,12 @@
 {
     "name": "sasezaki/netorare",
-    "description": "ZF2 Module for view",
+    "description": "routing & markup rendering mechanism like blosxom as zf2 module. offers static site generating, too",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "zf2",
+        "routing", "router",
+        "markup"
+    ],
     "require": {
         "zendframework/zend-view": "2.*",
         "phly/phly-simple-page": "*"
