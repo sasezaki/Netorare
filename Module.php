@@ -6,6 +6,15 @@ use Netorare\View\RendererPluginManager;
 
 class Module
 {
+    public function onBootstrap($event)
+    {
+        // @todo
+        if (isset($compile)) {
+            $em = $event->getApplication()->getEventManager();
+            $em->attachAggregate(new RequestRouteCompileListener);
+        }
+    }
+
     public function getServiceConfig()
     {
         return [
@@ -21,7 +30,7 @@ class Module
                 }
             ],
             'invokables' => [
-                'Michelf\Markdown' => 'Michelf\Markdown'
+                'Michelf\Markdown' => 'Michelf\Markdown',
             ]
         ];
     }
