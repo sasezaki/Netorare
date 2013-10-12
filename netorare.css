@@ -1,0 +1,30 @@
+/*  BACKGROUND COLORS */
+
+body {
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 100%;
+}
+.bg-white {
+    background-color: #ffffff;
+    padding-top: 1.529411765em;
+    padding-bottom: 1.529411765em;
+}
+
+.bg-gray {
+    background-color: #f4f4f4;
+    padding-top: 1.529411765em;
+    padding-bottom: 1.529411765em;
+}
+
+.logo {
+  background: url(netorare.gif) center 0 no-repeat;
+  background-size: 400px 100px;
+  height: 100px;
+  margin: 0 auto 0px;
+  overflow: hidden;
+  text-indent: -9999em;
+  width: 400px;
+}
