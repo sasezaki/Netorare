@@ -12,6 +12,7 @@ class PathinfoExtensionStrategy extends AbstractListenerAggregate
 {
     protected $rendererPluginManager;
     protected $defaultRenderer;
+    protected $layoutModel;
 
     /**
      * Constructor
@@ -45,15 +46,22 @@ class PathinfoExtensionStrategy extends AbstractListenerAggregate
      */
     public function selectRenderer(ViewEvent $e)
     {
-        $extension = pathinfo($e->getModel()->getTemplate(), PATHINFO_EXTENSION);
+        $model = $e->getModel();
+        $extension = pathinfo($model->getTemplate(), PATHINFO_EXTENSION);
         if ($extension) {
             $renderer = $this->rendererPluginManager->get($extension);
             if ($renderer) {
+                if (!$this->layoutModel->getVariable('title_entry')) {
+                    $this->layoutModel->setVariable('title_entry', rawurldecode(pathinfo($model->getTemplate(), PATHINFO_FILENAME)));
+                }
                 $renderer->setResolver($this->resolver);
                 return $renderer;
             }
         }
 
+        if (!$this->layoutModel) {
+            $this->layoutModel = $model;
+        }
         return $this->defaultRenderer;
     }
 
