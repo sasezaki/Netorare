@@ -13,7 +13,12 @@ class RequestRouteCompileListener extends AbstractListenerAggregate
             if ($match = $e->getRouteMatch()) {
                 $params = $match->getParams();
                 if (isset($params['template'])) {
-                    $path = getcwd().DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.$match->getMatchedRouteName().'.html';
+                    $path = getcwd().DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.$match->getMatchedRouteName();
+                    $dir = dirname($path);
+                    if (!is_dir($dir)) {
+                        mkdir($dir, 0777, true);
+                    }
+                    $path .= '.html';
                     file_put_contents($path, $e->getResponse()->getContent());
                 }
             }
